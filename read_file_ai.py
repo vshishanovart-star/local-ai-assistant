@@ -94,18 +94,20 @@ Choose mode:
 def save_analysis_result(file_path, task, ai_message):
     OUTPUT_DIR.mkdir(exist_ok=True)
 
-    output_path = OUTPUT_DIR / "last_file_analysis.txt"
+    output_path = OUTPUT_DIR / "last_file_analysis.md"
 
     report = f"""
-File analysis report
+# File Analysis Report
 
-Analyzed file:
+## Analyzed file
+
 {file_path.name}
 
-Task:
+## Task
+
 {task}
 
-AI result:
+## AI result
 
 {ai_message}
 """
