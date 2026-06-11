@@ -137,6 +137,7 @@ Current model: {current_model}
 11 - AI Ecosystem Status
 12 - Open Open WebUI
 13 - Open ComfyUI
+14 - Open Qwen3-TTS
 15 - Start AI Ecosystem
 16 - Exit
 ''')
