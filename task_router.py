@@ -24,6 +24,7 @@ def main():
 
 chat
 file_analyzer
+project_overview
 image_generation
 tts
 
@@ -68,6 +69,9 @@ tts
 
     elif tool == "chat":
         run_script("ai_memory_chat.py")
+
+    elif tool == "project_overview":
+        run_script("project_overview_ai.py")
 
     else:
         print("Unknown tool selected")
