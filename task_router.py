@@ -1,7 +1,6 @@
 from task_history import save_task
 from config_loader import load_config
 from ollama_client import ask_ollama
-from tool_descriptions import TOOL_DESCRIPTIONS
 from tool_registry import TOOLS
 from current_task import save_current_task
 from assistant_menu import (
@@ -22,8 +21,11 @@ def main():
 
     tools_text = ""
 
-    for tool_name, description in TOOL_DESCRIPTIONS.items():
-        tools_text += f"{tool_name}\n{description}\n\n"
+    for tool_name, info in TOOLS.items():
+        tools_text += (
+            f"{tool_name}\n"
+            f"{info['description']}\n\n"
+        )
 
     prompt = f"""
     Определи какой инструмент лучше всего подходит.
