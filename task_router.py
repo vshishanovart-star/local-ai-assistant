@@ -1,6 +1,7 @@
 from task_history import save_task
 from config_loader import load_config
 from ollama_client import ask_ollama
+from tool_descriptions import TOOL_DESCRIPTIONS
 from tool_registry import TOOLS
 from current_task import save_current_task
 from assistant_menu import (
@@ -19,26 +20,27 @@ def main():
         print("Task cancelled.")
         return
 
+    tools_text = ""
+
+    for tool_name, description in TOOL_DESCRIPTIONS.items():
+        tools_text += f"{tool_name}\n{description}\n\n"
+
     prompt = f"""
-Определи какой инструмент нужен для задачи.
+    Определи какой инструмент лучше всего подходит.
 
-Доступные варианты:
+    Доступные инструменты:
 
-chat
-file_analyzer
-project_overview
-image_generation
-tts
+    {tools_text}
 
-Правила:
-- Отвечай только одним словом.
-- Не объясняй решение.
-- Не добавляй комментарии.
-- Используй только один вариант из списка.
+    Правила:
+    - Отвечай только названием инструмента.
+    - Не объясняй решение.
+    - Не добавляй комментарии.
+    - Используй только один инструмент из списка.
 
-Задача:
-{task}
-"""
+    Задача:
+    {task}
+    """
 
     messages = [
         {
