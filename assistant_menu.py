@@ -12,6 +12,11 @@ README_FILE = BASE_DIR / 'README.md'
 OUTPUT_DIR = BASE_DIR / 'output'
 
 
+def show_recent_tasks():
+    run_script("recent_tasks.py")
+    input("\nPress Enter to return to menu...")
+
+
 def run_script(script_name):
     script_path = BASE_DIR / script_name
     subprocess.run([sys.executable, script_path], cwd=BASE_DIR)
@@ -140,7 +145,8 @@ Current model: {current_model}
 14 - Open Qwen3-TTS
 15 - Start AI Ecosystem
 16 - AI Task Router
-17 - Exit
+17 - Recent Tasks
+18 - Exit
 ''')
 
         choice = input('Choose option: ').strip()
@@ -213,7 +219,11 @@ Current model: {current_model}
             run_script('task_router.py')
             continue
 
-        if choice in ['17', 'exit', 'quit', 'q']:
+        elif choice == "17":
+            show_recent_tasks()
+            continue
+
+        if choice in ['18', 'exit', 'quit', 'q']:
             print('Menu closed.')
             break
 
