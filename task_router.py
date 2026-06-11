@@ -1,6 +1,7 @@
 from task_history import save_task
 from config_loader import load_config
 from ollama_client import ask_ollama
+from tool_registry import TOOLS
 from current_task import save_current_task
 from assistant_menu import (
     open_comfyui,
@@ -61,24 +62,23 @@ tts
 
     save_task(task, tool)
 
-    if tool == "tts":
-        open_qwen_tts()
+    tool_info = TOOLS.get(tool)
 
-    elif tool == "image_generation":
+    if not tool_info:
+        print("Unknown tool selected")
+        return
+
+    tool_type = tool_info["type"]
+    target = tool_info["target"]
+
+    if tool_type == "script":
+        run_script(target)
+
+    elif tool_type == "comfyui":
         open_comfyui()
 
-    elif tool == "file_analyzer":
-        run_script("read_file_ai.py")
-
-    elif tool == "chat":
-        run_script("ai_memory_chat.py")
-
-    elif tool == "project_overview":
-        run_script("project_overview_ai.py")
-
-    else:
-        print("Unknown tool selected")
-
+    elif tool_type == "tts":
+        open_qwen_tts()
 
 if __name__ == "__main__":
     main()
