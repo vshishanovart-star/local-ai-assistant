@@ -2,6 +2,7 @@ from task_history import save_task
 from config_loader import load_config
 from ollama_client import ask_ollama
 from tool_registry import TOOLS
+from tool_executor import execute_tool
 from current_task import save_current_task
 from assistant_menu import (
     open_comfyui,
@@ -72,17 +73,7 @@ def main():
         print("Unknown tool selected")
         return
 
-    tool_type = tool_info["type"]
-    target = tool_info["target"]
-
-    if tool_type == "script":
-        run_script(target)
-
-    elif tool_type == "comfyui":
-        open_comfyui()
-
-    elif tool_type == "tts":
-        open_qwen_tts()
+    execute_tool(tool_info)
 
 if __name__ == "__main__":
     main()
