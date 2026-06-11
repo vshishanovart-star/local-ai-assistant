@@ -1,3 +1,6 @@
+from port_checker import is_port_open
+
+
 from process_checker import is_process_running
 
 
@@ -17,13 +20,20 @@ def execute_tool(tool_info):
 
     elif tool_type == "comfyui":
 
-        if is_process_running("python.exe"):
-            print("ComfyUI may already be running.")
+        if is_port_open(8188):
+            print("ComfyUI already running.")
             return
 
+        print("Launching ComfyUI...")
         open_comfyui()
 
     elif tool_type == "tts":
+
+        if is_port_open(7860):
+            print("Qwen3-TTS already running.")
+            return
+
+        print("Launching Qwen3-TTS...")
         open_qwen_tts()
 
     else:
