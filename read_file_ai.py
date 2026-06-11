@@ -67,6 +67,7 @@ def choose_file(files):
 def choose_mode():
     print("""
 Choose mode:
+0 - cancel
 1 - explain
 2 - bugs
 3 - improve
@@ -74,6 +75,9 @@ Choose mode:
 """)
 
     mode = input("Enter mode: ").strip()
+
+    if mode == "0":
+        return None
 
     if mode == "1":
         return "Объясни содержимое файла простыми словами."
@@ -87,7 +91,7 @@ Choose mode:
     if mode == "4":
         return "Сделай краткое резюме: за что отвечает этот файл и что в нём происходит."
 
-    print("Unknown mode.")
+    print("Unknown mode. Analysis cancelled.")
     return None
 
 
