@@ -1,6 +1,7 @@
 from task_history import save_task
 from config_loader import load_config
 from ollama_client import ask_ollama
+from current_task import save_current_task
 from assistant_menu import (
     open_comfyui,
     open_qwen_tts,
@@ -55,6 +56,8 @@ tts
 
     print("\nSelected tool:")
     print(tool)
+
+    save_current_task(task, tool)
 
     save_task(task, tool)
 
