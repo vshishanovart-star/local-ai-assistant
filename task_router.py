@@ -19,6 +19,10 @@ def main():
 
     task = input("\nDescribe task: ").strip()
 
+    if not task:
+        print("Task cancelled.")
+        return
+
     similar_tasks = find_similar_tasks(task)
 
     if similar_tasks:
@@ -30,9 +34,14 @@ def main():
             print(f"  Summary: {item['summary']}")
             print()
 
-        if not task:
-            print("Task cancelled.")
-            return
+    use_memory = False
+
+    if similar_tasks:
+        answer = input(
+            "Use previous experience? (y/n): "
+        ).strip().lower()
+
+        use_memory = answer == "y"
 
     tools_text = ""
 
@@ -42,27 +51,27 @@ def main():
             f"{info['description']}\n\n"
         )
 
-    prompt = f"""
-    Определи какой инструмент лучше всего подходит.
+    router_prompt = f"""
+Определи какой инструмент лучше всего подходит.
 
-    Доступные инструменты:
+Доступные инструменты:
 
-    {tools_text}
+{tools_text}
 
-    Правила:
-    - Отвечай только названием инструмента.
-    - Не объясняй решение.
-    - Не добавляй комментарии.
-    - Используй только один инструмент из списка.
+Правила:
+- Отвечай только названием инструмента.
+- Не объясняй решение.
+- Не добавляй комментарии.
+- Используй только один инструмент из списка.
 
-    Задача:
-    {task}
-    """
+Задача:
+{task}
+"""
 
     messages = [
         {
             "role": "user",
-            "content": prompt
+            "content": router_prompt
         }
     ]
 
@@ -74,7 +83,21 @@ def main():
 
     tool = result.strip().lower()
 
-    prompt = build_prompt(task, tool)
+    if use_memory:
+        memory_summary = similar_tasks[0]["summary"]
+
+        task_for_prompt = (
+            f"{task}\n\n"
+            f"Previous experience:\n"
+            f"{memory_summary}"
+        )
+    else:
+        task_for_prompt = task
+
+    prompt = build_prompt(
+        task_for_prompt,
+        tool
+    )
 
     save_prompt(
         task,
@@ -99,6 +122,7 @@ def main():
         return
 
     execute_tool(tool_info)
+
 
 if __name__ == "__main__":
     main()
