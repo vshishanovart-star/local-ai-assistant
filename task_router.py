@@ -1,5 +1,10 @@
 from config_loader import load_config
 from ollama_client import ask_ollama
+from assistant_menu import (
+    open_comfyui,
+    open_qwen_tts,
+    run_script
+)
 
 
 def main():
@@ -50,16 +55,16 @@ tts
     print(tool)
 
     if tool == "tts":
-        print("Launch Qwen3-TTS")
+        open_qwen_tts()
 
     elif tool == "image_generation":
-        print("Launch ComfyUI")
+        open_comfyui()
 
     elif tool == "file_analyzer":
-        print("Launch File Analyzer")
+        run_script("read_file_ai.py")
 
     elif tool == "chat":
-        print("Launch Chat")
+        run_script("ai_memory_chat.py")
 
     else:
         print("Unknown tool selected")
