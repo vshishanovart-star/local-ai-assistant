@@ -54,15 +54,14 @@ def choose_file(files):
 
     file_path = BASE_DIR / user_input
 
-    if not file_path.exists():
-        print("File not found.")
-        return None
+    for file_path in files:
+        relative_path = str(file_path.relative_to(BASE_DIR))
 
-    if not file_path.is_file():
-        print("This is not a file.")
-        return None
+        if user_input.lower() == relative_path.lower():
+            return file_path
 
-    return file_path
+    print("File not found.")
+    return None
 
 
 def choose_mode():
