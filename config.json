@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:11434/api/chat",
-  "model": "qwen2.5-coder:7b",
+  "model": "qwen2.5:7b",
   "available_models": [
     "qwen2.5-coder:7b",
     "qwen2.5:7b"
