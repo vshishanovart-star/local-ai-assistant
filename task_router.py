@@ -1,3 +1,4 @@
+from task_history import save_task
 from config_loader import load_config
 from ollama_client import ask_ollama
 from assistant_menu import (
@@ -53,6 +54,8 @@ tts
 
     print("\nSelected tool:")
     print(tool)
+
+    save_task(task, tool)
 
     if tool == "tts":
         open_qwen_tts()
