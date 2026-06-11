@@ -54,6 +54,50 @@ def check_ollama():
         print("[OFFLINE] Ollama")
 
 
+def check_docker():
+    try:
+        result = subprocess.run(
+            ["docker", "ps"],
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode == 0:
+            print("[OK]      Docker")
+        else:
+            print("[OFFLINE] Docker")
+
+    except Exception:
+        print("[OFFLINE] Docker")
+
+
+def show_ollama_models():
+    try:
+        result = subprocess.run(
+            ["ollama", "list"],
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode != 0:
+            return
+
+        lines = result.stdout.strip().splitlines()
+
+        if len(lines) <= 1:
+            return
+
+        print()
+        print(f"Ollama models: {len(lines) - 1}")
+
+        for line in lines[1:]:
+            model_name = line.split()[0]
+            print(f" - {model_name}")
+
+    except Exception:
+        pass
+
+
 def main():
     config = load_config()
 
@@ -62,6 +106,7 @@ def main():
     print()
 
     check_ollama()
+    check_docker()
 
     for name, url in SERVICES:
         check_service(name, url)
@@ -84,6 +129,8 @@ def main():
         if result.returncode == 0:
             gpu_info = result.stdout.strip()
             print(f"GPU: {gpu_info}")
+            
+        show_ollama_models()
 
     except Exception:
         pass
