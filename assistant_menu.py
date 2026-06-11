@@ -146,7 +146,8 @@ Current model: {current_model}
 15 - Start AI Ecosystem
 16 - AI Task Router
 17 - Recent Tasks
-18 - Exit
+18 - Show Current Task
+19 - Exit
 ''')
 
         choice = input('Choose option: ').strip()
@@ -215,15 +216,17 @@ Current model: {current_model}
             open_qwen_tts()
             continue
 
-        elif choice == '16':
-            run_script('task_router.py')
+        elif choice == '17':
+            run_script('recent_tasks.py')
+            input('\nPress Enter to return to menu...')
             continue
 
-        elif choice == "17":
-            show_recent_tasks()
+        elif choice == '18':
+            run_script('show_current_task.py')
+            input('\nPress Enter to return to menu...')
             continue
 
-        if choice in ['18', 'exit', 'quit', 'q']:
+        if choice in ['19', 'exit', 'quit', 'q']:
             print('Menu closed.')
             break
 
