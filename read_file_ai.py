@@ -14,14 +14,14 @@ ALLOWED_EXTENSIONS = {".py", ".json", ".md", ".txt"}
 def get_project_files():
     files = []
 
-    for path in BASE_DIR.iterdir():
-        if path.name in EXCLUDED_DIRS:
+    for path in BASE_DIR.rglob("*"):
+        if any(part in EXCLUDED_DIRS for part in path.parts):
             continue
 
         if path.is_file() and path.suffix in ALLOWED_EXTENSIONS:
             files.append(path)
 
-    return sorted(files, key=lambda item: item.name.lower())
+    return sorted(files, key=lambda item: str(item).lower())
 
 
 def show_project_files(files):
