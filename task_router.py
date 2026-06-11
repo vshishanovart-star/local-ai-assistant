@@ -2,6 +2,7 @@ from task_history import save_task
 from config_loader import load_config
 from ollama_client import ask_ollama
 from task_prompt_builder import build_prompt
+from session_memory import find_similar_tasks
 from prompt_storage import save_prompt
 from tool_registry import TOOLS
 from tool_executor import execute_tool
@@ -18,9 +19,20 @@ def main():
 
     task = input("\nDescribe task: ").strip()
 
-    if not task:
-        print("Task cancelled.")
-        return
+    similar_tasks = find_similar_tasks(task)
+
+    if similar_tasks:
+        print("\nSimilar tasks found:\n")
+
+        for item in similar_tasks[:3]:
+            print(f"- {item['task']}")
+            print(f"  Tool: {item['tool']}")
+            print(f"  Summary: {item['summary']}")
+            print()
+
+        if not task:
+            print("Task cancelled.")
+            return
 
     tools_text = ""
 
