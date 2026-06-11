@@ -170,8 +170,8 @@ Current model: {current_model}
 11 - AI Ecosystem Status
 12 - Open Open WebUI
 13 - Open ComfyUI
-14 - Open Qwen3-TTS
-15 - Exit
+15 - Start AI Ecosystem
+16 - Exit
 ''')
 
         choice = input('Choose option: ').strip()
@@ -234,7 +234,13 @@ Current model: {current_model}
             open_qwen_tts()
             continue
 
-        if choice in ['15', 'exit', 'quit', 'q']:
+        elif choice == '15':
+            open_openwebui()
+            open_comfyui()
+            open_qwen_tts()
+            continue
+
+        if choice in ['16', 'exit', 'quit', 'q']:
             print('Menu closed.')
             break
 
