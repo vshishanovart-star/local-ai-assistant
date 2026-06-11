@@ -148,7 +148,8 @@ Current model: {current_model}
 8 - Run health check
 9 - Show output files
 10 - Change model
-11 - Exit
+11 - AI Ecosystem Status
+12 - Exit
 ''')
 
         choice = input('Choose option: ').strip()
@@ -194,7 +195,12 @@ Current model: {current_model}
             change_model()
             continue
 
-        if choice in ['11', 'exit', 'quit', 'q']:
+        elif choice == '11':
+            run_script('ecosystem_status.py')
+            input('\nPress Enter to return to menu...')
+            continue
+
+        if choice in ['12', 'exit', 'quit', 'q']:
             print('Menu closed.')
             break
 
