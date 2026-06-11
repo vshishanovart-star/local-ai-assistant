@@ -1,3 +1,6 @@
+from process_checker import is_process_running
+
+
 from assistant_menu import (
     open_comfyui,
     open_qwen_tts,
@@ -13,6 +16,11 @@ def execute_tool(tool_info):
         run_script(target)
 
     elif tool_type == "comfyui":
+
+        if is_process_running("python.exe"):
+            print("ComfyUI may already be running.")
+            return
+
         open_comfyui()
 
     elif tool_type == "tts":
