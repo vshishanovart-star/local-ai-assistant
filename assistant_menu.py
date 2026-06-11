@@ -111,40 +111,7 @@ def open_qwen_tts():
 
 
 def change_model():
-    config = load_config()
-    models = config.get('available_models', [config['model']])
-
-    print('\nAvailable models:\n')
-
-    for index, model in enumerate(models, start=1):
-        current_marker = ' (current)' if model == config['model'] else ''
-        print(f'{index} - {model}{current_marker}')
-
-    choice = input('\nChoose model number or press Enter to cancel: ').strip()
-
-    if not choice:
-        print('Model change cancelled.')
-        input('\nPress Enter to return to menu...')
-        return
-
-    if not choice.isdigit():
-        print('Invalid choice.')
-        input('\nPress Enter to return to menu...')
-        return
-
-    index = int(choice)
-
-    if index < 1 or index > len(models):
-        print('Model number is out of range.')
-        input('\nPress Enter to return to menu...')
-        return
-
-    selected_model = models[index - 1]
-    config['model'] = selected_model
-    save_config(config)
-
-    print(f'Model changed to: {selected_model}')
-    input('\nPress Enter to return to menu...')
+    run_script('ollama_models.py')
 
 
 def main():
