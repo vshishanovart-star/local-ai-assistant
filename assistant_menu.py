@@ -96,11 +96,18 @@ def open_openwebui():
 
 
 def open_comfyui():
-    webbrowser.open("http://127.0.0.1:8188")
+    subprocess.Popen(
+        r"C:\AI\ComfyUI\ComfyUI_windows_portable\run_nvidia_gpu.bat",
+        cwd=r"C:\AI\ComfyUI\ComfyUI_windows_portable",
+        shell=True
+    )
 
 
 def open_qwen_tts():
-    webbrowser.open("http://127.0.0.1:7860")
+    subprocess.Popen(
+        [r"C:\AI\QweenTTS\Qwen3-TTS_portable_rus-main\portable\run.bat"],
+        shell=True
+    )
 
 
 def change_model():
