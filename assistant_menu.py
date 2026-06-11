@@ -139,7 +139,8 @@ Current model: {current_model}
 13 - Open ComfyUI
 14 - Open Qwen3-TTS
 15 - Start AI Ecosystem
-16 - Exit
+16 - AI Task Router
+17 - Exit
 ''')
 
         choice = input('Choose option: ').strip()
@@ -208,7 +209,11 @@ Current model: {current_model}
             open_qwen_tts()
             continue
 
-        if choice in ['16', 'exit', 'quit', 'q']:
+        elif choice == '16':
+            run_script('task_router.py')
+            continue
+
+        if choice in ['17', 'exit', 'quit', 'q']:
             print('Menu closed.')
             break
 
