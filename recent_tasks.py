@@ -27,9 +27,12 @@ def main():
             encoding="utf-8"
         )
 
-        first_line = content.splitlines()[0]
+        lines = content.splitlines()
 
-        print(first_line)
+        task_line = lines[0]
+        tool_line = lines[2]
+
+        print(f"{task_line} | {tool_line}")
 
 if __name__ == "__main__":
     main()
