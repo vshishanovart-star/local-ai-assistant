@@ -28,7 +28,8 @@ def show_project_files(files):
     print("\nAvailable project files:\n")
 
     for index, file_path in enumerate(files, start=1):
-        print(f"{index}. {file_path.name}")
+        relative_path = file_path.relative_to(BASE_DIR)
+        print(f"{index}. {relative_path}")
 
     print()
 
