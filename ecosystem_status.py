@@ -1,4 +1,5 @@
 import requests
+import subprocess
 
 from config_loader import load_config
 
@@ -67,6 +68,25 @@ def main():
 
     print()
     print(f"Current model: {config['model']}")
+    print()
+
+    try:
+        result = subprocess.run(
+            [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total",
+                "--format=csv,noheader"
+            ],
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode == 0:
+            gpu_info = result.stdout.strip()
+            print(f"GPU: {gpu_info}")
+
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":
