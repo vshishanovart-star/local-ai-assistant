@@ -1,6 +1,8 @@
 from task_history import save_task
 from config_loader import load_config
 from ollama_client import ask_ollama
+from task_prompt_builder import build_prompt
+from prompt_storage import save_prompt
 from tool_registry import TOOLS
 from tool_executor import execute_tool
 from current_task import save_current_task
@@ -59,6 +61,17 @@ def main():
     )
 
     tool = result.strip().lower()
+
+    prompt = build_prompt(task, tool)
+
+    save_prompt(
+        task,
+        tool,
+        prompt
+    )
+
+    print("\nGenerated prompt:")
+    print(prompt)
 
     print("\nSelected tool:")
     print(tool)
