@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import webbrowser
 from pathlib import Path
 
 from config_loader import load_config, save_config
@@ -90,6 +91,17 @@ def show_readme():
 
     input('\nPress Enter to return to menu...')
 
+def open_openwebui():
+    webbrowser.open("http://localhost:3000")
+
+
+def open_comfyui():
+    webbrowser.open("http://127.0.0.1:8188")
+
+
+def open_qwen_tts():
+    webbrowser.open("http://127.0.0.1:7860")
+
 
 def change_model():
     config = load_config()
@@ -149,7 +161,10 @@ Current model: {current_model}
 9 - Show output files
 10 - Change model
 11 - AI Ecosystem Status
-12 - Exit
+12 - Open Open WebUI
+13 - Open ComfyUI
+14 - Open Qwen3-TTS
+15 - Exit
 ''')
 
         choice = input('Choose option: ').strip()
@@ -200,7 +215,19 @@ Current model: {current_model}
             input('\nPress Enter to return to menu...')
             continue
 
-        if choice in ['12', 'exit', 'quit', 'q']:
+        elif choice == '12':
+            open_openwebui()
+            continue
+
+        elif choice == '13':
+            open_comfyui()
+            continue
+
+        elif choice == '14':
+            open_qwen_tts()
+            continue
+
+        if choice in ['15', 'exit', 'quit', 'q']:
             print('Menu closed.')
             break
 
