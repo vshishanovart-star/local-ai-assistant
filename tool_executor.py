@@ -1,4 +1,7 @@
-from port_checker import is_port_open
+from port_checker import (
+    is_port_open,
+    wait_for_port
+)
 from assistant_menu import (
     open_comfyui,
     open_qwen_tts,
@@ -18,9 +21,17 @@ def execute_tool(tool_info, prompt=None):
     elif tool_type == "comfyui":
 
         if not is_port_open(8188):
+
             print("Launching ComfyUI...")
             open_comfyui()
-            return
+
+            print("Waiting for ComfyUI...")
+
+            if not wait_for_port(8188):
+                print("ComfyUI startup timeout.")
+                return
+
+            print("ComfyUI ready.")
 
         if not prompt:
             print("Prompt not provided.")
