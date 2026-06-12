@@ -10,9 +10,15 @@ def main():
 
     print("\nCurrent task:\n")
 
-    print(f"Task: {task['task']}")
-    print(f"Tool: {task['tool']}")
-    print(f"Status: {task['status']}")
+    print(f"Task: {task.get('task', '-')}")
+    print(f"Tool: {task.get('tool', '-')}")
+    print(f"Status: {task.get('status', '-')}")
+
+    if task.get("result"):
+        print(f"Result: {task['result']}")
+
+    if task.get("summary"):
+        print(f"Summary: {task['summary']}")
 
 
 if __name__ == "__main__":

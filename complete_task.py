@@ -40,10 +40,9 @@ def main():
         success=True
     )
 
-    print("\nSummary:")
-    print(summary)
-
     task_data["status"] = "completed"
+    task_data["result"] = result
+    task_data["summary"] = summary
 
     with open(
         "current_task.json",
@@ -56,6 +55,9 @@ def main():
             ensure_ascii=False,
             indent=4
         )
+
+    print("\nSummary:")
+    print(summary)
 
     print("\nTask completed.")
     print("Session saved.")
