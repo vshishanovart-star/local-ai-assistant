@@ -20,7 +20,16 @@ def wait_for_prompt(prompt_id, timeout=600):
         history = response.json()
 
         if prompt_id in history:
-            return history[prompt_id]
+
+            item = history[prompt_id]
+
+            outputs = item.get(
+                "outputs",
+                {}
+            )
+
+            if outputs:
+                return item
 
         if time.time() - start_time > timeout:
             raise TimeoutError(

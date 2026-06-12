@@ -24,9 +24,18 @@ task_input.pack(
     padx=20
 )
 
+from gui_runner import run_task
+
 run_button = tk.Button(
     root,
-    text="Run Task"
+    text="Run Task",
+    command=lambda: run_task(
+        task_input.get(
+            "1.0",
+            "end-1c"
+        ),
+        output_box
+    )
 )
 
 run_button.pack(pady=10)

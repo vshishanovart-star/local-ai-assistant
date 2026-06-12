@@ -45,9 +45,6 @@ def generate_image(prompt_text):
 
     history = wait_for_prompt(prompt_id)
 
-    print("\nHISTORY:")
-    print(history)
-
     result_file = extract_image_path(
         history
     )

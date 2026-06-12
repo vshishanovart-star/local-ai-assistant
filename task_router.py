@@ -9,10 +9,14 @@ from tool_executor import execute_tool
 from current_task import save_current_task
 
 
-def main():
+def main(task=None):
     config = load_config()
 
-    task = input("\nDescribe task: ").strip()
+    if task is None:
+
+        task = input(
+            "\nDescribe task: "
+        ).strip()
 
     if not task:
         print("Task cancelled.")
@@ -33,28 +37,23 @@ def main():
             print(f"  Summary: {item['summary']}")
             print()
 
-        answer = input(
-            "Reuse previous successful tool? (y/n): "
-        ).strip().lower()
+        use_memory = True
 
-        if answer == "y":
-            use_memory = True
+        tool = similar_tasks[0]["tool"]
 
-            tool = similar_tasks[0]["tool"]
+        previous_prompt = (
+            similar_tasks[0]
+            .get("prompt", "")
+        )
 
-            previous_prompt = (
-                similar_tasks[0]
-                .get("prompt", "")
-            )
+        print(
+            f"\nUsing remembered tool: {tool}"
+        )
 
+        if previous_prompt:
             print(
-                f"\nUsing remembered tool: {tool}"
+                "\nPrevious successful prompt found."
             )
-
-            if previous_prompt:
-                print(
-                    "\nPrevious successful prompt found."
-                )
 
     if tool is None:
 
@@ -137,7 +136,7 @@ def main():
         print("Unknown tool selected")
         return
 
-    result = execute_tool(
+    return execute_tool(
         tool_info,
         prompt
     )
