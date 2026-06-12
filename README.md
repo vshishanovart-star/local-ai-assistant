@@ -1,98 +1,184 @@
 # Local AI Assistant
 
-Local AI Assistant — локальный AI-помощник на Python для работы с проектами через терминал.
+## Overview
 
-Проект использует локальную модель через Ollama и помогает:
-- общаться с AI в режиме чата;
-- анализировать отдельные файлы проекта;
-- получать общий обзор проекта;
-- проверять состояние проекта;
-- сохранять результаты анализа;
-- смотреть статус Git, логи и список файлов;
-- выбирать активную AI-модель из меню.
+Local AI Assistant is a Python-based AI workstation that integrates local language models, task routing, prompt generation, memory, and external AI tools into a single workflow.
 
-## Возможности
+The project is designed to help users work with AI locally without relying on cloud services.
 
-- Локальный чат с AI через Ollama
-- Анализ отдельного файла
-- Обзор всего проекта
-- Проверка состояния проекта
-- Главное меню для запуска функций
-- Выбор активной AI-модели из меню
-- Логирование
-- Сохранение результатов в папку output
+## Key Features
 
-## Основные файлы
+### AI Task Router
 
-- start.py — точка входа в проект
-- assistant_menu.py — главное меню
-- ai_memory_chat.py — чат с локальным AI
-- read_file_ai.py — анализ одного файла
-- project_overview_ai.py — обзор проекта
-- health_check.py — диагностика проекта
-- config.json — настройки
-- config_loader.py — загрузка и сохранение конфигурации
-- logger.py — логирование
-- ollama_client.py — клиент для Ollama
-- requirements.txt — зависимости
+Automatically analyzes a user task and selects the most appropriate tool.
 
-## Запуск
+Supported tools:
 
-Перейти в папку проекта:
+* Chat
+* File Analyzer
+* Project Overview
+* Image Generation
+* Text-to-Speech (TTS)
 
-cd C:\AI\projects\local-ai-assistant
+### Prompt Generation
 
-Создать виртуальное окружение:
+Generates structured prompts for AI tools.
 
-py -m venv .venv
+Examples:
 
-Активировать виртуальное окружение:
+* Image generation prompts for ComfyUI
+* Speech generation prompts for Qwen3-TTS
 
-.\.venv\Scripts\Activate.ps1
+### Memory System
 
-Установить зависимости:
+The assistant stores:
 
-pip install -r requirements.txt
+* task history
+* prompts
+* session results
+* summaries
+* successful executions
 
-Запустить проект:
+and can reuse previous experience when solving similar tasks.
+
+### Session Management
+
+The system tracks:
+
+* current task
+* current prompt
+* completed tasks
+* successful results
+
+All sessions are stored locally in JSON format.
+
+### AI Ecosystem Integration
+
+Integrated with:
+
+* Ollama
+* ComfyUI
+* Qwen3-TTS
+* Open WebUI
+
+### Project Analytics
+
+Provides:
+
+* project overview
+* recent tasks
+* memory statistics
+* tool usage statistics
+* project reports
+
+---
+
+## Architecture
+
+Task
+
+↓
+
+Task Router
+
+↓
+
+Tool Selection
+
+↓
+
+Prompt Builder
+
+↓
+
+Tool Executor
+
+↓
+
+Result
+
+↓
+
+Summary Generator
+
+↓
+
+Session Memory
+
+---
+
+## Technologies
+
+* Python
+* Ollama
+* Local LLMs
+* ComfyUI
+* Qwen3-TTS
+* Open WebUI
+* Git
+* JSON-based memory system
+
+---
+
+## Project Structure
+
+Main modules:
+
+* assistant_menu.py
+* task_router.py
+* task_prompt_builder.py
+* tool_executor.py
+* session_memory.py
+* task_session.py
+* complete_task.py
+* experience_score.py
+* ai_memory_chat.py
+
+---
+
+## Running
+
+Clone repository:
+
+git clone <repository>
+
+Open project folder:
+
+cd local-ai-assistant
+
+Run:
 
 py start.py
 
-## Требования
+---
 
-- Python
-- Ollama
-- локальная модель, указанная в config.json
-- библиотека requests
+## Current Status
 
-Ollama должна быть доступна локально:
+Version: v0.6
 
-http://localhost:11434
+Implemented:
 
-## Конфигурация
+* Task routing
+* Prompt generation
+* Tool execution
+* Session memory
+* Experience tracking
+* Current task tracking
+* Current prompt tracking
+* Project reporting
 
-Настройки находятся в файле config.json.
+---
 
-В config.json можно указать:
+## Future Plans
 
-- url локального Ollama API;
-- текущую модель;
-- список доступных моделей;
-- системный промпт;
-- путь к файлу логов.
+* Automatic ComfyUI workflow execution
+* Automatic result collection
+* Multi-agent workflows
+* Local AI workstation dashboard
+* Freelance-oriented automation tools
 
-Пример модели: qwen2.5-coder:7b
+---
 
-## Статус проекта
+## Author
 
-Текущая версия: MVP.
-
-Проект находится в учебно-портфолио стадии, но уже работает как локальный инструмент для анализа файлов и общения с AI через терминал.
-
-## Планы развития
-
-- добавление новых моделей в список available_models;
-- экспорт отчётов в Markdown или PDF;
-- простой веб-интерфейс через Streamlit или Gradio;
-- улучшение анализа проектов;
-- добавление новых режимов работы.
+Personal educational and portfolio project focused on local AI workflows, automation, and practical AI tooling.
