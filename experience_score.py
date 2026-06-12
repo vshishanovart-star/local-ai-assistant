@@ -33,9 +33,32 @@ def mark_success(task_name):
     return False
 
 
+def get_tool_experience():
+    stats = {}
+
+    if not SESSIONS_DIR.exists():
+        return stats
+
+    for file in SESSIONS_DIR.glob("*.json"):
+        try:
+            data = json.loads(
+                file.read_text(encoding="utf-8")
+            )
+
+            if not data.get("success"):
+                continue
+
+            tool = data.get("tool")
+
+            stats[tool] = (
+                stats.get(tool, 0) + 1
+            )
+
+        except Exception:
+            pass
+
+    return stats
+
+
 if __name__ == "__main__":
-    print(
-        mark_success(
-            "Создай логотип для Kwork"
-        )
-    )
+    print(get_tool_experience())
