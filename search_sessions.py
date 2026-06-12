@@ -6,6 +6,19 @@ BASE_DIR = Path(__file__).resolve().parent
 SESSIONS_DIR = BASE_DIR / "output" / "sessions"
 
 
+def calculate_score(query, task):
+    query_words = query.lower().split()
+    task_words = task.lower().split()
+
+    score = 0
+
+    for word in query_words:
+        if word in task_words:
+            score += 1
+
+    return score
+
+
 def main():
     if not SESSIONS_DIR.exists():
         print("No sessions found.")
@@ -26,11 +39,23 @@ def main():
 
             task = data.get("task", "")
 
-            if query in task.lower():
-                found.append(data)
+            score = calculate_score(
+                query,
+                task
+            )
+
+            if score > 0:
+                found.append(
+                    (score, data)
+                )
 
         except Exception:
             pass
+
+    found.sort(
+        key=lambda item: item[0],
+        reverse=True
+    )
 
     print("\nResults:\n")
 
@@ -38,7 +63,8 @@ def main():
         print("Nothing found.")
         return
 
-    for item in found:
+    for score, item in found[:10]:
+        print(f"Score: {score}")
         print(f"Task: {item['task']}")
         print(f"Tool: {item['tool']}")
         print(f"Summary: {item['summary']}")
