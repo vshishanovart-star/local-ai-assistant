@@ -7,11 +7,6 @@ from prompt_storage import save_prompt
 from tool_registry import TOOLS
 from tool_executor import execute_tool
 from current_task import save_current_task
-from assistant_menu import (
-    open_comfyui,
-    open_qwen_tts,
-    run_script
-)
 
 
 def main():
@@ -25,6 +20,9 @@ def main():
 
     similar_tasks = find_similar_tasks(task)
 
+    use_memory = False
+    tool = None
+
     if similar_tasks:
         print("\nSimilar tasks found:\n")
 
@@ -34,24 +32,29 @@ def main():
             print(f"  Summary: {item['summary']}")
             print()
 
-    use_memory = False
-
-    if similar_tasks:
         answer = input(
-            "Use previous experience? (y/n): "
+            "Reuse previous successful tool? (y/n): "
         ).strip().lower()
 
-        use_memory = answer == "y"
+        if answer == "y":
+            use_memory = True
+            tool = similar_tasks[0]["tool"]
 
-    tools_text = ""
+            print(
+                f"\nUsing remembered tool: {tool}"
+            )
 
-    for tool_name, info in TOOLS.items():
-        tools_text += (
-            f"{tool_name}\n"
-            f"{info['description']}\n\n"
-        )
+    if tool is None:
 
-    router_prompt = f"""
+        tools_text = ""
+
+        for tool_name, info in TOOLS.items():
+            tools_text += (
+                f"{tool_name}\n"
+                f"{info['description']}\n\n"
+            )
+
+        router_prompt = f"""
 Определи какой инструмент лучше всего подходит.
 
 Доступные инструменты:
@@ -68,20 +71,20 @@ def main():
 {task}
 """
 
-    messages = [
-        {
-            "role": "user",
-            "content": router_prompt
-        }
-    ]
+        messages = [
+            {
+                "role": "user",
+                "content": router_prompt
+            }
+        ]
 
-    result = ask_ollama(
-        config["url"],
-        config["model"],
-        messages
-    )
+        result = ask_ollama(
+            config["url"],
+            config["model"],
+            messages
+        )
 
-    tool = result.strip().lower()
+        tool = result.strip().lower()
 
     if use_memory:
         memory_summary = similar_tasks[0]["summary"]
