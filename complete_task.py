@@ -3,6 +3,7 @@ import json
 from current_task import load_current_task
 from result_summary import build_summary
 from task_session import save_session
+from find_latest_result import find_latest_result
 
 
 def main():
@@ -12,13 +13,18 @@ def main():
         print("No current task.")
         return
 
-    result = input(
-        "\nResult file/path: "
-    ).strip()
+    tool = task_data["tool"]
 
-    if not result:
-        print("Result cancelled.")
+    result_file = find_latest_result(tool)
+
+    if not result_file:
+        print("Result not found.")
         return
+
+    result = str(result_file)
+
+    print("\nDetected result:")
+    print(result)
 
     summary = build_summary(
         task_data["task"],
@@ -27,7 +33,7 @@ def main():
 
     save_session(
         task=task_data["task"],
-        tool=task_data["tool"],
+        tool=tool,
         prompt="",
         result=result,
         summary=summary,
