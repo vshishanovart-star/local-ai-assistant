@@ -22,6 +22,7 @@ def main():
 
     use_memory = False
     tool = None
+    previous_prompt = None
 
     if similar_tasks:
         print("\nSimilar tasks found:\n")
@@ -38,11 +39,22 @@ def main():
 
         if answer == "y":
             use_memory = True
+
             tool = similar_tasks[0]["tool"]
+
+            previous_prompt = (
+                similar_tasks[0]
+                .get("prompt", "")
+            )
 
             print(
                 f"\nUsing remembered tool: {tool}"
             )
+
+            if previous_prompt:
+                print(
+                    "\nPrevious successful prompt found."
+                )
 
     if tool is None:
 
@@ -99,7 +111,8 @@ def main():
 
     prompt = build_prompt(
         task_for_prompt,
-        tool
+        tool,
+        previous_prompt
     )
 
     save_prompt(
