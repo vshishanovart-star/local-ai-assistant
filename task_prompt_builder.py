@@ -2,7 +2,11 @@ from config_loader import load_config
 from ollama_client import ask_ollama
 
 
-def build_prompt(task, tool):
+def build_prompt(
+    task,
+    tool,
+    previous_prompt=None
+):
     if tool == "image_generation":
         instruction = """
 Преобразуй задачу пользователя в качественный промпт
@@ -17,6 +21,7 @@ def build_prompt(task, tool):
 Например:
 
 "логотип" →
+
 "professional minimalist logo,
 vector style,
 clean design,
@@ -25,6 +30,10 @@ high quality branding"
 Не придумывай названия компаний,
 цвета или объекты,
 если они не указаны пользователем.
+
+Если есть успешный предыдущий промпт,
+используй его как ориентир по стилю,
+но адаптируй под новую задачу.
 
 Верни только готовый промпт.
 """
@@ -40,6 +49,16 @@ high quality branding"
     else:
         return task
 
+    memory_block = ""
+
+    if previous_prompt:
+        memory_block = f"""
+
+Успешный прошлый промпт:
+
+{previous_prompt}
+"""
+
     config = load_config()
 
     messages = [
@@ -47,6 +66,8 @@ high quality branding"
             "role": "user",
             "content": f"""
 {instruction}
+
+{memory_block}
 
 Задача:
 
