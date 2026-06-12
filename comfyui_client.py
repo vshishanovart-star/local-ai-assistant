@@ -2,6 +2,11 @@ import json
 import requests
 from pathlib import Path
 
+from comfyui_history import wait_for_prompt
+from comfyui_result_parser import (
+    extract_image_path
+)
+
 
 WORKFLOW_PATH = Path(
     "api_workflow.json"
@@ -30,12 +35,29 @@ def generate_image(prompt_text):
         timeout=60
     )
 
-    print("STATUS:", response.status_code)
-    print(response.text)
-
     response.raise_for_status()
 
-    return response.json()
+    data = response.json()
+
+    prompt_id = data["prompt_id"]
+
+    print("\nWaiting for generation...")
+
+    history = wait_for_prompt(prompt_id)
+
+    print("\nHISTORY:")
+    print(history)
+
+    result_file = extract_image_path(
+        history
+    )
+
+    print(
+        "\nGenerated file:"
+    )
+    print(result_file)
+
+    return result_file
 
 
 if __name__ == "__main__":

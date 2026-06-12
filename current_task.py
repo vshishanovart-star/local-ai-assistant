@@ -29,3 +29,29 @@ def load_current_task():
 
     except Exception:
         return None
+    
+
+def update_current_task(result=None, summary=None, status=None):
+
+    task = load_current_task()
+
+    if not task:
+        return
+
+    if result is not None:
+        task["result"] = result
+
+    if summary is not None:
+        task["summary"] = summary
+
+    if status is not None:
+        task["status"] = status
+
+    CURRENT_TASK_FILE.write_text(
+        json.dumps(
+            task,
+            indent=4,
+            ensure_ascii=False
+        ),
+        encoding="utf-8"
+    )

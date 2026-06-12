@@ -137,11 +137,14 @@ def main():
         print("Unknown tool selected")
         return
 
-    execute_tool(
+    result = execute_tool(
         tool_info,
         prompt
     )
 
+    if result:
+        print("\nResult:")
+        print(result)
 
 if __name__ == "__main__":
     main()

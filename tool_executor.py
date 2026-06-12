@@ -7,8 +7,8 @@ from assistant_menu import (
     open_qwen_tts,
     run_script
 )
-
 from comfyui_client import generate_image
+from current_task import update_current_task
 
 
 def execute_tool(tool_info, prompt=None):
@@ -37,12 +37,17 @@ def execute_tool(tool_info, prompt=None):
             print("Prompt not provided.")
             return
 
-        print("Sending task to ComfyUI...")
-
         result = generate_image(prompt)
+
+        update_current_task(
+            result=str(result),
+            status="completed"
+        )
 
         print("\nComfyUI response:")
         print(result)
+
+        return result
 
     elif tool_type == "tts":
 
@@ -55,3 +60,4 @@ def execute_tool(tool_info, prompt=None):
 
     else:
         print("Unknown tool type")
+        return None
