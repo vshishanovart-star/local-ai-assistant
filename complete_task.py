@@ -1,32 +1,58 @@
 import json
-from pathlib import Path
 
-
-BASE_DIR = Path(__file__).resolve().parent
-TASK_FILE = BASE_DIR / "current_task.json"
+from current_task import load_current_task
+from result_summary import build_summary
+from task_session import save_session
 
 
 def main():
-    if not TASK_FILE.exists():
+    task_data = load_current_task()
+
+    if not task_data:
         print("No current task.")
         return
 
-    data = json.loads(
-        TASK_FILE.read_text(encoding="utf-8")
+    result = input(
+        "\nResult file/path: "
+    ).strip()
+
+    if not result:
+        print("Result cancelled.")
+        return
+
+    summary = build_summary(
+        task_data["task"],
+        result
     )
 
-    data["status"] = "completed"
+    save_session(
+        task=task_data["task"],
+        tool=task_data["tool"],
+        prompt="",
+        result=result,
+        summary=summary,
+        success=True
+    )
 
-    TASK_FILE.write_text(
-        json.dumps(
-            data,
+    print("\nSummary:")
+    print(summary)
+
+    task_data["status"] = "completed"
+
+    with open(
+        "current_task.json",
+        "w",
+        encoding="utf-8"
+    ) as f:
+        json.dump(
+            task_data,
+            f,
             ensure_ascii=False,
             indent=4
-        ),
-        encoding="utf-8"
-    )
+        )
 
-    print("Task completed.")
+    print("\nTask completed.")
+    print("Session saved.")
 
 
 if __name__ == "__main__":
