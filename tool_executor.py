@@ -5,8 +5,10 @@ from assistant_menu import (
     run_script
 )
 
+from comfyui_client import generate_image
 
-def execute_tool(tool_info):
+
+def execute_tool(tool_info, prompt=None):
     tool_type = tool_info["type"]
     target = tool_info["target"]
 
@@ -15,12 +17,21 @@ def execute_tool(tool_info):
 
     elif tool_type == "comfyui":
 
-        if is_port_open(8188):
-            print("ComfyUI already running.")
+        if not is_port_open(8188):
+            print("Launching ComfyUI...")
+            open_comfyui()
             return
 
-        print("Launching ComfyUI...")
-        open_comfyui()
+        if not prompt:
+            print("Prompt not provided.")
+            return
+
+        print("Sending task to ComfyUI...")
+
+        result = generate_image(prompt)
+
+        print("\nComfyUI response:")
+        print(result)
 
     elif tool_type == "tts":
 
