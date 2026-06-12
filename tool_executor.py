@@ -8,7 +8,7 @@ from assistant_menu import (
     run_script
 )
 from comfyui_client import generate_image
-from current_task import update_current_task
+from auto_complete_task import auto_complete
 
 
 def execute_tool(tool_info, prompt=None):
@@ -39,13 +39,15 @@ def execute_tool(tool_info, prompt=None):
 
         result = generate_image(prompt)
 
-        update_current_task(
-            result=str(result),
-            status="completed"
+        summary = auto_complete(
+            str(result)
         )
 
         print("\nComfyUI response:")
         print(result)
+
+        print("\nSummary:")
+        print(summary)
 
         return result
 
