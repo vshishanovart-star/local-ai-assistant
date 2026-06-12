@@ -147,7 +147,8 @@ Current model: {current_model}
 16 - AI Task Router
 17 - Recent Tasks
 18 - Show Current Task
-19 - Exit
+19 - Show Current Prompt
+20 - Exit
 ''')
 
         choice = input('Choose option: ').strip()
@@ -226,7 +227,12 @@ Current model: {current_model}
             input('\nPress Enter to return to menu...')
             continue
 
-        if choice in ['19', 'exit', 'quit', 'q']:
+        elif choice == '19':
+            run_script('show_current_prompt.py')
+            input('\nPress Enter to return to menu...')
+            continue
+
+        if choice in ['20', 'exit', 'quit', 'q']:
             print('Menu closed.')
             break
 
