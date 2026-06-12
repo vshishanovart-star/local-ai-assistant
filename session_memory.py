@@ -20,6 +20,9 @@ def find_similar_tasks(query):
                 file.read_text(encoding="utf-8")
             )
 
+            if not data.get("success", False):
+                continue
+
             task = data.get("task", "")
 
             if query in task.lower():
@@ -35,3 +38,6 @@ if __name__ == "__main__":
     results = find_similar_tasks("логотип")
 
     print(f"Found: {len(results)}")
+
+    for item in results:
+        print(item.get("task"))
