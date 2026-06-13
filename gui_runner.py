@@ -16,17 +16,34 @@ def task_worker(
 
     result = main(task_text)
 
-    file_name = Path(result).name
-
     output_box.delete(
         "1.0",
         "end"
     )
 
-    output_box.insert(
-        "1.0",
-        f"Task completed\n\nGenerated image:\n{file_name}"
-    )
+    if result and str(result).lower().endswith(
+        (".png", ".jpg", ".jpeg")
+    ):
+
+        file_name = Path(result).name
+
+        output_box.insert(
+            "1.0",
+            f"Task completed\n\nGenerated image:\n{file_name}"
+        )
+
+    else:
+
+        output_box.insert(
+            "1.0",
+            str(result)
+        )
+
+        image_label.config(
+            image=""
+        )
+
+        return
 
     try:
 

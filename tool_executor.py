@@ -9,6 +9,7 @@ from assistant_menu import (
 )
 from comfyui_client import generate_image
 from auto_complete_task import auto_complete
+from chat_tool import ask_chat
 
 
 def execute_tool(tool_info, prompt=None):
@@ -16,6 +17,14 @@ def execute_tool(tool_info, prompt=None):
     target = tool_info["target"]
 
     if tool_type == "script":
+
+        if target == "ai_memory_chat.py":
+
+            if not prompt:
+                return "Empty prompt"
+
+            return ask_chat(prompt)
+
         run_script(target)
 
     elif tool_type == "comfyui":
