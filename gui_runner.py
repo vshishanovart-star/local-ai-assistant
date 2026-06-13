@@ -4,6 +4,7 @@ from PIL import Image
 from PIL import ImageTk
 
 from task_router import main
+import os
 
 
 def run_task(
@@ -47,6 +48,15 @@ def run_task(
         )
 
         image_label.image = photo
+
+        image_label.image_path = str(image_path)
+
+        image_label.bind(
+            "<Button-1>",
+            lambda e: os.startfile(
+                image_label.image_path
+            )
+        )
 
     except Exception as e:
 

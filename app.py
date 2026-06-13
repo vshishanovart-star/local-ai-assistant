@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from PIL import Image, ImageTk
 
@@ -27,6 +28,16 @@ task_input.pack(
 
 from gui_runner import run_task
 
+current_image_path = None
+
+
+def open_image(event=None):
+
+    global current_image_path
+
+    if current_image_path:
+        os.startfile(current_image_path)
+
 run_button = tk.Button(
     root,
     text="Run Task",
@@ -53,10 +64,18 @@ output_box.pack(
     pady=10
 )
 
-image_label = tk.Label(root)
+image_label = tk.Label(
+    root,
+    cursor="hand2"
+)
 
 image_label.pack(
     pady=10
+)
+
+image_label.bind(
+    "<Button-1>",
+    open_image
 )
 
 root.mainloop()
