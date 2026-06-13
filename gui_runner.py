@@ -5,9 +5,10 @@ from PIL import ImageTk
 
 from task_router import main
 import os
+import threading
 
 
-def run_task(
+def task_worker(
     task_text,
     output_box,
     image_label
@@ -64,3 +65,30 @@ def run_task(
             "Image preview error:",
             e
         )
+
+
+def run_task(
+    task_text,
+    output_box,
+    image_label
+):
+
+    output_box.delete(
+        "1.0",
+        "end"
+    )
+
+    output_box.insert(
+        "1.0",
+        "Generation in progress..."
+    )
+
+    threading.Thread(
+        target=task_worker,
+        args=(
+            task_text,
+            output_box,
+            image_label
+        ),
+        daemon=True
+    ).start()
