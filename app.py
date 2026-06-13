@@ -1,10 +1,11 @@
 import tkinter as tk
+from PIL import Image, ImageTk
 
 
 root = tk.Tk()
 
 root.title("Local AI Assistant")
-root.geometry("800x500")
+root.geometry("1000x950")
 
 title = tk.Label(
     root,
@@ -34,20 +35,27 @@ run_button = tk.Button(
             "1.0",
             "end-1c"
         ),
-        output_box
+        output_box,
+        image_label
     )
 )
 
 run_button.pack(pady=10)
 
 output_box = tk.Text(
-    root
+    root,
+    height=4
 )
 
 output_box.pack(
-    fill="both",
-    expand=True,
+    fill="x",
     padx=20,
+    pady=10
+)
+
+image_label = tk.Label(root)
+
+image_label.pack(
     pady=10
 )
 
