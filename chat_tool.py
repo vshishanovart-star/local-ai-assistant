@@ -3,21 +3,36 @@ from ollama_client import ask_ollama
 from qwen_tts_client import generate_speech
 
 
+config = load_config()
+
+messages = [
+    {
+        "role": "system",
+        "content": config["system_prompt"]
+    }
+]
+
+
 def ask_chat(question):
 
-    config = load_config()
-
-    messages = [
+    messages.append(
         {
             "role": "user",
             "content": question
         }
-    ]
+    )
 
     answer = ask_ollama(
         config["url"],
         config["model"],
         messages
+    )
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": answer
+        }
     )
 
     tts_text = answer[:1000]
