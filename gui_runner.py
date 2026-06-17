@@ -17,11 +17,6 @@ def task_worker(
 
     result = main(task_text)
 
-    output_box.delete(
-        "1.0",
-        "end"
-    )
-
     if result and str(result).lower().endswith(
         (".png", ".jpg", ".jpeg")
     ):
@@ -29,8 +24,9 @@ def task_worker(
         file_name = Path(result).name
 
         output_box.insert(
-            "1.0",
-            f"Task completed\n\nGenerated image:\n{file_name}"
+            "end",
+            f"\n\nYou:\n{task_text}\n\n"
+            f"AI:\n{answer}\n"
         )
 
     else:
@@ -61,15 +57,16 @@ def task_worker(
                 )
 
             output_box.insert(
-                "1.0",
-                f"AI Answer:\n\n{answer}\n\nAudio:\n{audio}"
+                "end",
+                f"\n\nYou:\n{task_text}\n\n"
+                f"AI:\n{answer}\n"
             )
 
         else:
 
             output_box.insert(
-                "1.0",
-                str(result)
+                "end",
+                f"\n\nResult:\n{result}\n"
             )
 
         image_label.config(
@@ -124,14 +121,10 @@ def run_task(
     audio_button
 ):
 
-    output_box.delete(
-        "1.0",
-        "end"
-    )
-
     output_box.insert(
-        "1.0",
-        "Generation in progress..."
+        "end",
+        "\n\n--------------------------------\n"
+        "Processing...\n"
     )
 
     threading.Thread(
