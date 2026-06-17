@@ -10,6 +10,7 @@ from assistant_menu import (
 from comfyui_client import generate_image
 from auto_complete_task import auto_complete
 from chat_tool import ask_chat
+from qwen_tts_client import generate_speech
 
 
 def execute_tool(tool_info, prompt=None):
@@ -62,12 +63,29 @@ def execute_tool(tool_info, prompt=None):
 
     elif tool_type == "tts":
 
-        if is_port_open(7860):
-            print("Qwen3-TTS already running.")
+        if not is_port_open(7860):
+
+            print("Launching Qwen3-TTS...")
+            open_qwen_tts()
+
+            print("Waiting for Qwen3-TTS...")
+
+            if not wait_for_port(7860):
+                print("Qwen3-TTS startup timeout.")
+                return
+
+            print("Qwen3-TTS ready.")
+
+        if not prompt:
+            print("Prompt not provided.")
             return
 
-        print("Launching Qwen3-TTS...")
-        open_qwen_tts()
+        result = generate_speech(prompt)
+
+        print("\nGenerated audio:")
+        print(result)
+
+        return result
 
     else:
         print("Unknown tool type")
