@@ -47,7 +47,8 @@ run_button = tk.Button(
             "end-1c"
         ),
         output_box,
-        image_label
+        image_label,
+        audio_button
     )
 )
 
@@ -55,7 +56,7 @@ run_button.pack(pady=10)
 
 output_box = tk.Text(
     root,
-    height=4
+    height=25
 )
 
 output_box.pack(
@@ -63,6 +64,14 @@ output_box.pack(
     padx=20,
     pady=10
 )
+
+audio_button = tk.Button(
+    root,
+    text="Play Audio",
+    state="disabled"
+)
+
+audio_button.pack(pady=5)
 
 image_label = tk.Label(
     root,

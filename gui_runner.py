@@ -11,7 +11,8 @@ import threading
 def task_worker(
     task_text,
     output_box,
-    image_label
+    image_label,
+    audio_button
 ):
 
     result = main(task_text)
@@ -34,10 +35,42 @@ def task_worker(
 
     else:
 
-        output_box.insert(
-            "1.0",
-            str(result)
-        )
+        if isinstance(result, dict):
+
+            answer = result.get(
+                "answer",
+                ""
+            )
+
+            audio = result.get(
+                "audio",
+                ""
+            )
+
+            if audio:
+
+                audio_button.config(
+                    state="normal",
+                    command=lambda: os.startfile(audio)
+                )
+
+            else:
+
+                audio_button.config(
+                    state="disabled"
+                )
+
+            output_box.insert(
+                "1.0",
+                f"AI Answer:\n\n{answer}\n\nAudio:\n{audio}"
+            )
+
+        else:
+
+            output_box.insert(
+                "1.0",
+                str(result)
+            )
 
         image_label.config(
             image=""
@@ -87,7 +120,8 @@ def task_worker(
 def run_task(
     task_text,
     output_box,
-    image_label
+    image_label,
+    audio_button
 ):
 
     output_box.delete(
@@ -105,7 +139,8 @@ def run_task(
         args=(
             task_text,
             output_box,
-            image_label
+            image_label,
+            audio_button
         ),
         daemon=True
     ).start()
